@@ -1,33 +1,25 @@
 import { useEffect, useMemo, useState } from "react";
 import { ISnippet } from "../types";
 
-function constructSnippet(
-  { html, css, javascript }: ISnippet,
-  transformJs: boolean = false
-) {
+function constructSnippet({ html, css, javascript }: ISnippet) {
   function constructJavaScript() {
-    if (transformJs) {
-      return `
-        <script type="module">
-          await esbuild.initialize({
-            wasmURL: "https://unpkg.com/esbuild-wasm@0.14.6/esbuild.wasm",
-          });
-          const result = await esbuild.transform(decodeURI(\`${encodeURI(
-            javascript
-          )}\`));
-          const script = document.createElement("script");
-          script.type = "module";
-          script.innerHTML = result.code;
-          document.body.appendChild(script);
-        </script>
-      `;
-    } else {
-      return `
-        <script>
-          ${javascript}
-        </script>
-      `;
-    }
+    return `
+      <script type="module">
+        import esbuild from 'https://cdn.skypack.dev/esbuild-wasm@0.14.6';
+        await esbuild.initialize({
+          wasmURL: "/esbuild.wasm",
+        });
+        const result = await esbuild.transform(decodeURI(\`${encodeURI(
+          javascript
+        )}\`), {
+          loader: "jsx"
+        });
+        const script = document.createElement("script");
+        script.type = "module";
+        script.innerHTML = result.code;
+        document.body.appendChild(script);
+      </script>
+    `;
   }
 
   return `
@@ -43,23 +35,23 @@ function constructSnippet(
     <body>
       ${html}
       <script>
-        var _privateLog = console.log;
+        var _log = console.log;
         console.log = function(...rest) {
           if (typeof window !== "undefined") {
             window.parent.postMessage({
-              source: "playground-frame",
+              source: "playground-preview",
               message: {
                 type: "log",
                 data: rest,
               },
             }, "*");
           }
-          _privateLog.apply(console, arguments);
+          _log.apply(console, arguments);
         }
         window.onerror = function(message) {
           if (typeof window !== "undefined") {
             window.parent.postMessage({
-              source: "playground-frame",
+              source: "playground-preview",
               message: {
                 type: "error",
                 data: message,
@@ -68,7 +60,6 @@ function constructSnippet(
           }
         }
       </script>
-      <script src="https://unpkg.com/esbuild-wasm@0.14.6/lib/browser.min.js"></script>
       ${constructJavaScript()}
     </body>
     </html>
@@ -99,7 +90,7 @@ export const Preview: React.FC<PreviewProps> = ({ snippet }) => {
   useEffect(() => {
     function handleErrorMessage(e: MessageEvent) {
       if (
-        e.data?.source === "playground-frame" &&
+        e.data?.source === "playground-preview" &&
         e.data?.message?.type === "error"
       ) {
         setError(e.data.message.data);

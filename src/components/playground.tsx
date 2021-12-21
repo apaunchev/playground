@@ -3,9 +3,14 @@ import { Editor } from "./editor";
 import { Preview } from "./preview";
 
 const initialSnippet = {
-  html: "<h1>hello</h1>",
-  css: "h1 { color: green }",
-  javascript: "console.log(1)",
+  html: `<div id="root"></div>`,
+  css: `#root { font-family: sans-serif; }`,
+  javascript: `
+    import * as React from 'https://cdn.skypack.dev/react';
+    import * as ReactDOM from 'https://cdn.skypack.dev/react-dom';
+    const App = () => <h1>App</h1>;
+    ReactDOM.render(<App />, document.getElementById("root"));
+  `,
 };
 
 interface PlaygroundProps {}
