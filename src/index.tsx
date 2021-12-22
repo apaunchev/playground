@@ -6,12 +6,7 @@ import { Preview } from "./components/Preview";
 const initialSnippet = {
   html: `<div id="root"></div>`,
   css: `#root { font-family: sans-serif; }`,
-  javascript: `
-    import * as React from 'https://cdn.skypack.dev/react';
-    import * as ReactDOM from 'https://cdn.skypack.dev/react-dom';
-    const App = () => <h1>App</h1>;
-    ReactDOM.render(<App />, document.getElementById("root"));
-  `,
+  javascript: `render(<h1>playground</h1>)`,
 };
 
 const App: React.FC = () => {
