@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import { Editor } from "./components/Editor";
 import { Preview } from "./components/Preview";
@@ -25,10 +25,12 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="playground">
-      <Editor snippet={snippet} onChange={handleChange} />
-      <Preview snippet={snippet} />
-    </div>
+    <React.StrictMode>
+      <div className="playground">
+        <Editor snippet={snippet} onChange={handleChange} />
+        <Preview snippet={snippet} />
+      </div>
+    </React.StrictMode>
   );
 };
 
