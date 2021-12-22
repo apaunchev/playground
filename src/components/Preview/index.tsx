@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { ISnippet } from "../types";
+import { ISnippet } from "../../types";
 
 function constructSnippet({ html, css, javascript }: ISnippet) {
   function constructJavaScript() {

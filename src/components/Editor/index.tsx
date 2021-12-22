@@ -1,6 +1,6 @@
 import debounce from "lodash/debounce";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { IEditorTypes, ISnippet } from "../types";
+import { IEditorTypes, ISnippet } from "../../types";
 
 interface EditorProps {
   snippet: ISnippet;

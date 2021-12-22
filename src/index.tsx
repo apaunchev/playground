@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ReactDOM from "react-dom";
-import { Editor } from "./components/editor";
-import { Preview } from "./components/preview";
+import { Editor } from "./components/Editor";
+import { Preview } from "./components/Preview";
 
 const initialSnippet = {
   html: `<div id="root"></div>`,
