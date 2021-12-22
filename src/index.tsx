@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import { Editor } from "./components/Editor";
+import { GlobalStyles } from "./components/GlobalStyles";
 import { Preview } from "./components/Preview";
 
 const initialSnippet = {
@@ -25,6 +26,7 @@ const App: React.FC = () => {
         <Editor snippet={snippet} onChange={handleChange} />
         <Preview snippet={snippet} />
       </div>
+      <GlobalStyles />
     </React.StrictMode>
   );
 };
