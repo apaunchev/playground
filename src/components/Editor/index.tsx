@@ -2,6 +2,8 @@ import debounce from "lodash/debounce";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { IEditorTypes, ISnippet } from "../../types";
 
+const PREVIEW_DEBOUNCE_MS = 1000;
+
 interface EditorProps {
   snippet: ISnippet;
   onChange: (changedContent: string, changedType: IEditorTypes) => void;
@@ -30,7 +32,7 @@ export const Editor: React.FC<EditorProps> = ({ snippet, onChange }) => {
     () =>
       debounce(
         (value: string, type: IEditorTypes) => onChange(value, type),
-        400
+        PREVIEW_DEBOUNCE_MS
       ),
     [onChange]
   );
