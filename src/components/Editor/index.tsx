@@ -1,6 +1,8 @@
 import debounce from "lodash/debounce";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import styled from "styled-components";
 import { IEditorTypes, ISnippet } from "../../types";
+import { Pane } from "../Pane";
 
 const PREVIEW_DEBOUNCE_MS = 1000;
 
@@ -57,19 +59,55 @@ export const Editor: React.FC<EditorProps> = ({ snippet, onChange }) => {
   );
 
   return (
-    <div className="editor-container">
-      <textarea
-        value={htmlCode}
-        onChange={(e) => handleChange(e.target.value, "html")}
-      ></textarea>
-      <textarea
-        value={cssCode}
-        onChange={(e) => handleChange(e.target.value, "css")}
-      ></textarea>
-      <textarea
-        value={javascriptCode}
-        onChange={(e) => handleChange(e.target.value, "javascript")}
-      ></textarea>
-    </div>
+    <Wrapper>
+      <SplitPaneWrapper>
+        <SplitPane>
+          <Pane title="HTML">
+            <EditorWrapper>
+              <textarea
+                value={htmlCode}
+                onChange={(e) => handleChange(e.target.value, "html")}
+              ></textarea>
+            </EditorWrapper>
+          </Pane>
+        </SplitPane>
+        <SplitPane>
+          <Pane title="CSS">
+            <EditorWrapper>
+              <textarea
+                value={cssCode}
+                onChange={(e) => handleChange(e.target.value, "css")}
+              ></textarea>
+            </EditorWrapper>
+          </Pane>
+        </SplitPane>
+        <SplitPane>
+          <Pane title="JSX">
+            <EditorWrapper>
+              <textarea
+                value={javascriptCode}
+                onChange={(e) => handleChange(e.target.value, "javascript")}
+              ></textarea>
+            </EditorWrapper>
+          </Pane>
+        </SplitPane>
+      </SplitPaneWrapper>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  flex: 1 1 0%;
+`;
+
+const SplitPaneWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+`;
+
+const SplitPane = styled.div`
+  flex: 1 1 0%;
+`;
+
+const EditorWrapper = styled.div``;

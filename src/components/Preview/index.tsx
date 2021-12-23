@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
+import styled from "styled-components";
 import { ISnippet } from "../../types";
+import { Pane } from "../Pane";
 
 function constructSnippet({ html, css, javascript }: ISnippet) {
   javascript = `
@@ -122,13 +124,41 @@ export const Preview: React.FC<PreviewProps> = ({ snippet }) => {
   }, []);
 
   return (
-    <div className="preview">
-      <iframe srcDoc={code} height="100%" width="100%" frameBorder="0" />
-      {error ? (
-        <div className="error">
-          <p>{error}</p>
-        </div>
-      ) : null}
-    </div>
+    <Wrapper>
+      <Pane title="Preview">
+        <PreviewWrapper>
+          <Frame srcDoc={code} height="100%" width="100%" frameBorder="0" />
+          {error ? (
+            <div className="error">
+              <p>{error}</p>
+            </div>
+          ) : null}
+        </PreviewWrapper>
+      </Pane>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  flex: 1 1 0%;
+  border-top: 1px solid var(--);
+`;
+
+const PreviewWrapper = styled.div`
+  position: relative;
+  min-height: 250px;
+  max-width: 100%;
+  flex: 1;
+  overflow: hidden;
+  background-color: white;
+  border-radius: 4px;
+`;
+
+const Frame = styled.iframe`
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+`;
