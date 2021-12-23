@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
+import { RefreshCw } from "react-feather";
 import styled from "styled-components";
 import { ISnippet } from "../../types";
+import { IconButton } from "../IconButton";
 import { Pane } from "../Pane";
 
 function constructSnippet({ html, css, javascript }: ISnippet) {
@@ -125,15 +127,24 @@ export const Preview: React.FC<PreviewProps> = ({ snippet }) => {
 
   return (
     <Wrapper>
-      <Pane title="Preview">
-        <PreviewWrapper>
+      <Pane
+        title="Preview"
+        actions={
+          <IconButton
+            icon={<RefreshCw size={21} />}
+            text="Refresh"
+            onClick={() => true}
+          />
+        }
+      >
+        <FrameWrapper>
           <Frame srcDoc={code} height="100%" width="100%" frameBorder="0" />
           {error ? (
             <div className="error">
               <p>{error}</p>
             </div>
           ) : null}
-        </PreviewWrapper>
+        </FrameWrapper>
       </Pane>
     </Wrapper>
   );
@@ -141,10 +152,10 @@ export const Preview: React.FC<PreviewProps> = ({ snippet }) => {
 
 const Wrapper = styled.div`
   flex: 1 1 0%;
-  border-top: 1px solid var(--);
+  border-top: 1px solid var(--color-header);
 `;
 
-const PreviewWrapper = styled.div`
+const FrameWrapper = styled.div`
   position: relative;
   min-height: 250px;
   max-width: 100%;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
-import { Code, Save } from "react-feather";
+import { Code, Save, Settings } from "react-feather";
 import { Editor } from "./components/Editor";
 import { GlobalStyles } from "./components/GlobalStyles";
 import { Preview } from "./components/Preview";
@@ -27,10 +27,20 @@ const App: React.FC = () => {
     <React.StrictMode>
       <Wrapper>
         <Header>
-          <HeaderTitle>Playground</HeaderTitle>
+          <HeaderTitle>
+            <Code size={18} /> Playground
+          </HeaderTitle>
           <HeaderActions>
-            <IconButton icon={<Save />} text="Save" onClick={(e) => true} />
-            <IconButton icon={<Code />} text="Format" onClick={(e) => true} />
+            <IconButton
+              icon={<Save size={21} />}
+              text="Save"
+              onClick={(e) => true}
+            />
+            <IconButton
+              icon={<Settings size={21} />}
+              text="Settings"
+              onClick={(e) => true}
+            />
           </HeaderActions>
         </Header>
         <Editor snippet={snippet} onChange={handleChange} />
@@ -56,19 +66,22 @@ const Header = styled.header`
   align-items: center;
   justify-content: space-between;
   padding: 12px 16px;
-  background-color: hsl(229deg 14% 22% / 50%);
+  background-color: var(--color-header);
   line-height: 1;
   cursor: default;
 `;
 
 const HeaderTitle = styled.p`
-  color: var(--color-text-primary);
+  display: flex;
+  gap: 6px;
+  color: var(--color-text);
   font-weight: var(--font-weight-bold);
   font-size: 1rem;
 `;
 
 const HeaderActions = styled.div`
   display: flex;
+  align-items: center;
   gap: 8px;
 `;
 

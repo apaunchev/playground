@@ -2,7 +2,7 @@ import debounce from "lodash/debounce";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { IEditorTypes, ISnippet } from "../../types";
-import { Pane } from "../Pane";
+import { CodeEditor } from "../CodeEditor";
 
 const PREVIEW_DEBOUNCE_MS = 1000;
 
@@ -40,7 +40,11 @@ export const Editor: React.FC<EditorProps> = ({ snippet, onChange }) => {
   );
 
   const handleChange = useCallback(
-    (value: string, type: IEditorTypes) => {
+    (value: string | undefined, type: IEditorTypes) => {
+      if (!value) {
+        return;
+      }
+
       if (type === "html") {
         setHtmlCode(value);
       }
@@ -62,34 +66,28 @@ export const Editor: React.FC<EditorProps> = ({ snippet, onChange }) => {
     <Wrapper>
       <SplitPaneWrapper>
         <SplitPane>
-          <Pane title="HTML">
-            <EditorWrapper>
-              <textarea
-                value={htmlCode}
-                onChange={(e) => handleChange(e.target.value, "html")}
-              ></textarea>
-            </EditorWrapper>
-          </Pane>
+          <CodeEditor
+            title="HTML"
+            language="html"
+            initialValue={htmlCode}
+            onChange={(value) => handleChange(value, "html")}
+          />
         </SplitPane>
         <SplitPane>
-          <Pane title="CSS">
-            <EditorWrapper>
-              <textarea
-                value={cssCode}
-                onChange={(e) => handleChange(e.target.value, "css")}
-              ></textarea>
-            </EditorWrapper>
-          </Pane>
+          <CodeEditor
+            title="CSS"
+            language="css"
+            initialValue={cssCode}
+            onChange={(value) => handleChange(value, "css")}
+          />
         </SplitPane>
         <SplitPane>
-          <Pane title="JSX">
-            <EditorWrapper>
-              <textarea
-                value={javascriptCode}
-                onChange={(e) => handleChange(e.target.value, "javascript")}
-              ></textarea>
-            </EditorWrapper>
-          </Pane>
+          <CodeEditor
+            title="JSX"
+            language="javascript"
+            initialValue={javascriptCode}
+            onChange={(value) => handleChange(value, "javascript")}
+          />
         </SplitPane>
       </SplitPaneWrapper>
     </Wrapper>
@@ -109,5 +107,3 @@ const SplitPaneWrapper = styled.div`
 const SplitPane = styled.div`
   flex: 1 1 0%;
 `;
-
-const EditorWrapper = styled.div``;

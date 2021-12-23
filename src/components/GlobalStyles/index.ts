@@ -21,7 +21,7 @@ export const GlobalStyles = createGlobalStyle`
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     font-family: var(--font-family);
-    color: var(--color-text-primary);
+    color: var(--color-text);
   }
 
   img, picture, video, canvas, svg {
@@ -50,9 +50,9 @@ export const GlobalStyles = createGlobalStyle`
     --font-weight-medium: 500;
     --font-weight-light: 300;
 
-    --color-background: hsl(226deg 19% 13%);
-    --color-text-primary: hsl(231deg 28% 73%);
-    --color-border-primary: hsl(231deg 28% 73%);
+    --color-background: #1e1e1e;
+    --color-header: #333;
+    --color-text: #ccc;
 
     --timing: cubic-bezier(0.19, 1, 0.22, 1);
   }
