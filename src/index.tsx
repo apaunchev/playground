@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
+import { Code, Settings } from "react-feather";
 import styled from "styled-components";
-import { Code, Save, Settings } from "react-feather";
 import { Editor } from "./components/Editor";
 import { GlobalStyles } from "./components/GlobalStyles";
-import { Preview } from "./components/Preview";
 import { IconButton } from "./components/IconButton";
+import { Preview } from "./components/Preview";
+import { useStickyState } from "./hooks/useStickyState";
+import { ISnippet } from "./types";
 
 const initialSnippet = {
   html: `<div id="root"></div>`,
@@ -14,10 +16,10 @@ const initialSnippet = {
 };
 
 const App: React.FC = () => {
-  const [snippet, setSnippet] = useState(initialSnippet);
+  const [snippet, setSnippet] = useStickyState(initialSnippet, "snippet");
 
   const handleChange = (changedContent: string, changedType: string) => {
-    setSnippet((snippet) => ({
+    setSnippet((snippet: ISnippet) => ({
       ...snippet,
       [changedType]: changedContent,
     }));
@@ -31,11 +33,6 @@ const App: React.FC = () => {
             <Code size={18} /> Playground
           </HeaderTitle>
           <HeaderActions>
-            <IconButton
-              icon={<Save size={21} />}
-              text="Save"
-              onClick={(e) => true}
-            />
             <IconButton
               icon={<Settings size={21} />}
               text="Settings"
