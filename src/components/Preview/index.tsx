@@ -96,6 +96,7 @@ interface PreviewProps {
 export const Preview: React.FC<PreviewProps> = ({ snippet }) => {
   const [code, setCode] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [frameKey, setFrameKey] = useState(0);
 
   useMemo(() => {
     try {
@@ -133,12 +134,21 @@ export const Preview: React.FC<PreviewProps> = ({ snippet }) => {
           <IconButton
             icon={<RefreshCw size={21} />}
             text="Refresh"
-            onClick={() => true}
+            onClick={() => {
+              // Updating the key will reload the iframe
+              setFrameKey(frameKey + 1);
+            }}
           />
         }
       >
         <FrameWrapper>
-          <Frame srcDoc={code} height="100%" width="100%" frameBorder="0" />
+          <Frame
+            key={frameKey}
+            srcDoc={code}
+            height="100%"
+            width="100%"
+            frameBorder="0"
+          />
           {error ? (
             <div className="error">
               <p>{error}</p>
