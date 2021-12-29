@@ -43,7 +43,7 @@ export const Editor: React.FC<EditorProps> = ({ snippet, onChange }) => {
 
   const handleChange = useCallback(
     (value: string | undefined, type: IEditorTypes) => {
-      if (!value) {
+      if (value === undefined) {
         return;
       }
 
