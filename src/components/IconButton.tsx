@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { Button } from "../Button";
-import { VisuallyHidden } from "../VisuallyHidden";
+import { Button } from "./Button";
+import { VisuallyHidden } from "./VisuallyHidden";
 
 interface IconButtonProps {
   icon: React.ReactNode;

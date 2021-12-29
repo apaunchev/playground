@@ -3,8 +3,8 @@ import "@reach/tabs/styles.css";
 import debounce from "lodash/debounce";
 import { useCallback, useMemo, useState } from "react";
 import styled from "styled-components";
-import { IEditorTypes, ISnippet } from "../../types";
-import { CodeEditor } from "../CodeEditor";
+import { IEditorTypes, ISnippet } from "../types";
+import { CodeEditor } from "./CodeEditor";
 
 const PREVIEW_DEBOUNCE_MS = 1000;
 

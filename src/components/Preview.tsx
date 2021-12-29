@@ -1,10 +1,10 @@
 import { useMemo, useState } from "react";
 import { RefreshCw } from "react-feather";
 import styled from "styled-components";
-import { ISnippet } from "../../types";
-import { IconButton } from "../IconButton";
-import { Pane } from "../Pane";
-import { constructSnippet } from "./constructSnippet";
+import { ISnippet } from "../types";
+import { IconButton } from "./IconButton";
+import { Pane } from "./Pane";
+import { constructSnippet } from "../utils/constructSnippet";
 
 interface PreviewProps {
   snippet: ISnippet;

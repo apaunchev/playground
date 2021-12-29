@@ -1,4 +1,4 @@
-import { ISnippet } from "../../types";
+import { ISnippet } from "../types";
 
 export function constructSnippet({ html, css, javascript }: ISnippet) {
   javascript = `
