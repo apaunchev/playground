@@ -1,6 +1,10 @@
+import prettier from "prettier";
+import babelParser from "prettier/parser-babel";
+import htmlParser from "prettier/parser-html";
+import cssParser from "prettier/parser-postcss";
 import React from "react";
 import ReactDOM from "react-dom";
-import { Code, Settings } from "react-feather";
+import { SkipBack, Zap } from "react-feather";
 import styled from "styled-components";
 import { Editor } from "./components/Editor";
 import { GlobalStyles } from "./components/GlobalStyles";
@@ -25,6 +29,38 @@ const App: React.FC = () => {
     }));
   };
 
+  function handleResetEditor() {
+    setSnippet(initialSnippet);
+  }
+
+  function handleFormatSnippet() {
+    let snippetCopy: { [key: string]: string } = snippet;
+    let formattedSnippet: ISnippet = { html: "", css: "", javascript: "" };
+
+    function format(code: string, parser: string, plugins: any[]) {
+      return prettier
+        .format(code, {
+          parser,
+          plugins,
+          useTabs: false,
+          semi: true,
+        })
+        .replace(/\n$/, "");
+    }
+
+    Object.entries(snippetCopy).forEach(([language, code]) => {
+      if (language === "html") {
+        formattedSnippet.html = format(code, "html", [htmlParser]);
+      } else if (language === "css") {
+        formattedSnippet.css = format(code, "css", [cssParser]);
+      } else if (language === "javascript") {
+        formattedSnippet.javascript = format(code, "babel", [babelParser]);
+      }
+    });
+
+    setSnippet(formattedSnippet);
+  }
+
   return (
     <React.StrictMode>
       <Wrapper>
@@ -32,9 +68,10 @@ const App: React.FC = () => {
           <HeaderTitle>Code Playground</HeaderTitle>
           <HeaderActions>
             <IconButton
-              icon={<Settings size={21} />}
-              text="Settings"
-              onClick={(e) => true}
+              icon={<SkipBack size={18} />}
+              text="Reset editor"
+              onClick={handleResetEditor}
+            />
             <IconButton
               icon={<Zap size={18} />}
               text="Format with Prettier"

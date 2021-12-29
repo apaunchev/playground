@@ -1,5 +1,7 @@
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@reach/tabs";
+import "@reach/tabs/styles.css";
 import debounce from "lodash/debounce";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import styled from "styled-components";
 import { IEditorTypes, ISnippet } from "../../types";
 import { CodeEditor } from "../CodeEditor";
@@ -16,7 +18,7 @@ export const Editor: React.FC<EditorProps> = ({ snippet, onChange }) => {
   const [cssCode, setCssCode] = useState("");
   const [javascriptCode, setJavascriptCode] = useState("");
 
-  useEffect(() => {
+  useMemo(() => {
     if (snippet.html) {
       setHtmlCode(snippet.html);
     }
@@ -28,7 +30,7 @@ export const Editor: React.FC<EditorProps> = ({ snippet, onChange }) => {
     if (snippet.javascript) {
       setJavascriptCode(snippet.javascript);
     }
-  }, []);
+  }, [snippet]);
 
   const debouncedChange = useMemo(
     () =>
@@ -64,46 +66,83 @@ export const Editor: React.FC<EditorProps> = ({ snippet, onChange }) => {
 
   return (
     <Wrapper>
-      <SplitPaneWrapper>
-        <SplitPane>
-          <CodeEditor
-            title="HTML"
-            language="html"
-            initialValue={htmlCode}
-            onChange={(value) => handleChange(value, "html")}
-          />
-        </SplitPane>
-        <SplitPane>
-          <CodeEditor
-            title="CSS"
-            language="css"
-            initialValue={cssCode}
-            onChange={(value) => handleChange(value, "css")}
-          />
-        </SplitPane>
-        <SplitPane>
-          <CodeEditor
-            title="JSX"
-            language="javascript"
-            initialValue={javascriptCode}
-            onChange={(value) => handleChange(value, "javascript")}
-          />
-        </SplitPane>
-      </SplitPaneWrapper>
+      <StyledTabs>
+        <StyledTabList>
+          <StyledTab key="html">HTML</StyledTab>
+          <StyledTab key="css">CSS</StyledTab>
+          <StyledTab key="javascript">JavaScript</StyledTab>
+        </StyledTabList>
+        <StyledTabPanels>
+          <StyledTabPanel key="html">
+            <CodeEditor
+              title="HTML"
+              language="html"
+              initialValue={htmlCode}
+              onChange={(value) => handleChange(value, "html")}
+            />
+          </StyledTabPanel>
+          <StyledTabPanel key="css">
+            <CodeEditor
+              title="CSS"
+              language="css"
+              initialValue={cssCode}
+              onChange={(value) => handleChange(value, "css")}
+            />
+          </StyledTabPanel>
+          <StyledTabPanel key="javascript">
+            <CodeEditor
+              title="JavaScript"
+              language="javascript"
+              initialValue={javascriptCode}
+              onChange={(value) => handleChange(value, "javascript")}
+            />
+          </StyledTabPanel>
+        </StyledTabPanels>
+      </StyledTabs>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  flex: 1 1 0%;
+  max-width: 100%;
+  overflow: hidden; // Helps to keep the editor follow its container size
 `;
 
-const SplitPaneWrapper = styled.div`
+const StyledTabs = styled(Tabs)`
+  height: 100%;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px 16px;
+`;
+
+const StyledTabList = styled(TabList)`
   display: flex;
   flex-direction: row;
-  height: 100%;
+  gap: 16px;
+  background-color: transparent;
 `;
 
-const SplitPane = styled.div`
+const StyledTab = styled(Tab)`
+  padding: 10px 0 14px;
+  border: 0;
+  opacity: 0.7;
+  transition: opacity 1s var(--timing);
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &[data-selected] {
+    font-weight: var(--font-weight-bold);
+    opacity: 1;
+  }
+`;
+
+const StyledTabPanels = styled(TabPanels)`
   flex: 1 1 0%;
+`;
+
+const StyledTabPanel = styled(TabPanel)`
+  height: 100%;
 `;

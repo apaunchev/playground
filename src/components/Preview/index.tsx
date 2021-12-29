@@ -54,8 +54,7 @@ export const Preview: React.FC<PreviewProps> = ({ snippet }) => {
 };
 
 const Wrapper = styled.div`
-  flex: 1 1 0%;
-  border-top: 1px solid var(--color-header);
+  border-left: 1px solid var(--color-header);
 `;
 
 const FrameWrapper = styled.div`
