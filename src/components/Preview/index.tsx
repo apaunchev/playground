@@ -30,8 +30,8 @@ export const Preview: React.FC<PreviewProps> = ({ snippet }) => {
         title="Preview"
         actions={
           <IconButton
-            icon={<RefreshCw size={21} />}
-            text="Refresh"
+            icon={<RefreshCw size={18} />}
+            text="Reload page"
             onClick={() => {
               // Updating the key will reload the iframe
               setFrameKey(frameKey + 1);
@@ -60,9 +60,8 @@ const Wrapper = styled.div`
 
 const FrameWrapper = styled.div`
   position: relative;
-  min-height: 250px;
   max-width: 100%;
-  flex: 1;
+  flex: 1 1 0%;
   overflow: hidden;
   background-color: white;
   border-radius: 4px;

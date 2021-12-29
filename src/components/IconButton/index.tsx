@@ -24,6 +24,7 @@ export const IconButton: React.FC<IconButtonProps> = ({
 const StyledButton = styled(Button)`
   display: flex;
   align-items: center;
+  justify-content: center;
   width: 24px;
   height: 24px;
   opacity: 0.7;

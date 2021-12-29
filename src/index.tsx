@@ -29,19 +29,23 @@ const App: React.FC = () => {
     <React.StrictMode>
       <Wrapper>
         <Header>
-          <HeaderTitle>
-            <Code size={18} /> Playground
-          </HeaderTitle>
+          <HeaderTitle>Code Playground</HeaderTitle>
           <HeaderActions>
             <IconButton
               icon={<Settings size={21} />}
               text="Settings"
               onClick={(e) => true}
+            <IconButton
+              icon={<Zap size={18} />}
+              text="Format with Prettier"
+              onClick={handleFormatSnippet}
             />
           </HeaderActions>
         </Header>
-        <Editor snippet={snippet} onChange={handleChange} />
-        <Preview snippet={snippet} />
+        <Content>
+          <Editor snippet={snippet} onChange={handleChange} />
+          <Preview snippet={snippet} />
+        </Content>
       </Wrapper>
       <GlobalStyles />
     </React.StrictMode>
@@ -62,9 +66,8 @@ const Header = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 16px;
+  padding: 6px 16px;
   background-color: var(--color-header);
-  line-height: 1;
   cursor: default;
 `;
 
@@ -73,13 +76,24 @@ const HeaderTitle = styled.p`
   gap: 6px;
   color: var(--color-text);
   font-weight: var(--font-weight-bold);
-  font-size: 1rem;
+  font-size: ${14 / 16}rem;
 `;
 
 const HeaderActions = styled.div`
   display: flex;
   align-items: center;
+  justify-items: center;
   gap: 8px;
+`;
+
+const Content = styled.div`
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: row;
+
+  > * {
+    flex: 1 1 0%;
+  }
 `;
 
 ReactDOM.render(<App />, document.querySelector("#root"));
