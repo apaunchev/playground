@@ -19,36 +19,6 @@ export function constructSnippet({ html, css, javascript }: ISnippet) {
         root.innerHTML = value;
       }
     };
-    const _log = console.log;
-    console.log = function (...rest) {
-      if (typeof window !== "undefined") {
-        window.parent.postMessage(
-          {
-            source: "playground-preview",
-            message: {
-              type: "log",
-              data: rest,
-            },
-          },
-          "*"
-        );
-      }
-      _log.apply(console, arguments);
-    };
-    window.onerror = function (message) {
-      if (typeof window !== "undefined") {
-        window.parent.postMessage(
-          {
-            source: "playground-preview",
-            message: {
-              type: "error",
-              data: message,
-            },
-          },
-          "*"
-        );
-      }
-    };
     ${javascript}
   `;
 

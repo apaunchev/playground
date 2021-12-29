@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { RefreshCw } from "react-feather";
 import styled from "styled-components";
 import { ISnippet } from "../../types";
@@ -12,36 +12,17 @@ interface PreviewProps {
 
 export const Preview: React.FC<PreviewProps> = ({ snippet }) => {
   const [code, setCode] = useState("");
-  const [error, setError] = useState<string | null>(null);
   const [frameKey, setFrameKey] = useState(0);
 
   useMemo(() => {
     try {
       const code = constructSnippet(snippet);
-
       setCode(code);
-      setError(null);
     } catch (e: unknown) {
-      if (e instanceof Error) {
-        setError(e.message);
-      }
+      // if (e instanceof Error) {
+      // }
     }
   }, [snippet]);
-
-  useEffect(() => {
-    function handleErrorMessage(e: MessageEvent) {
-      if (
-        e.data?.source === "playground-preview" &&
-        e.data?.message?.type === "error"
-      ) {
-        setError(e.data.message.data);
-      }
-    }
-
-    window.addEventListener("message", handleErrorMessage);
-
-    return () => window.removeEventListener("message", handleErrorMessage);
-  }, []);
 
   return (
     <Wrapper>
@@ -66,11 +47,6 @@ export const Preview: React.FC<PreviewProps> = ({ snippet }) => {
             width="100%"
             frameBorder="0"
           />
-          {error ? (
-            <div className="error">
-              <p>{error}</p>
-            </div>
-          ) : null}
         </FrameWrapper>
       </Pane>
     </Wrapper>
