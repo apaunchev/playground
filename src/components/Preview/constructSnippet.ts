@@ -4,9 +4,6 @@ export function constructSnippet({ html, css, javascript }: ISnippet) {
   javascript = `
     import React from "https://cdn.skypack.dev/react";
     import ReactDOM from "https://cdn.skypack.dev/react-dom";
-    import styled, {
-      createGlobalStyle,
-    } from "https://cdn.skypack.dev/styled-components";
     const render = (value) => {
       const root = document.querySelector("#root");
       if (typeof value === "object") {
