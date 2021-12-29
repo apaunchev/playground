@@ -34,8 +34,11 @@ const App: React.FC = () => {
   }
 
   function handleFormatSnippet() {
-    const snippetCopy: { [key: string]: string } = snippet;
-    const formattedSnippet: ISnippet = { html: "", css: "", javascript: "" };
+    const newSnippet: { [key: string]: string } = {
+      html: snippet.html,
+      css: snippet.css,
+      javascript: snippet.javascript,
+    };
 
     function format(
       code: string,
@@ -46,23 +49,21 @@ const App: React.FC = () => {
         .format(code, {
           parser,
           plugins,
-          useTabs: false,
-          semi: true,
         })
         .replace(/\n$/, "");
     }
 
-    Object.entries(snippetCopy).forEach(([language, code]) => {
+    Object.entries(newSnippet).forEach(([language, code]) => {
       if (language === "html") {
-        formattedSnippet.html = format(code, "html", [htmlParser]);
+        newSnippet.html = format(code, "html", [htmlParser]);
       } else if (language === "css") {
-        formattedSnippet.css = format(code, "css", [cssParser]);
+        newSnippet.css = format(code, "css", [cssParser]);
       } else if (language === "javascript") {
-        formattedSnippet.javascript = format(code, "babel", [babelParser]);
+        newSnippet.javascript = format(code, "babel", [babelParser]);
       }
     });
 
-    setSnippet(formattedSnippet);
+    setSnippet(newSnippet);
   }
 
   return (
