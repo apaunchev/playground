@@ -34,10 +34,14 @@ const App: React.FC = () => {
   }
 
   function handleFormatSnippet() {
-    let snippetCopy: { [key: string]: string } = snippet;
-    let formattedSnippet: ISnippet = { html: "", css: "", javascript: "" };
+    const snippetCopy: { [key: string]: string } = snippet;
+    const formattedSnippet: ISnippet = { html: "", css: "", javascript: "" };
 
-    function format(code: string, parser: string, plugins: any[]) {
+    function format(
+      code: string,
+      parser: string,
+      plugins: (string | prettier.Plugin<any>)[]
+    ) {
       return prettier
         .format(code, {
           parser,
