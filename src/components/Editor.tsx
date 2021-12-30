@@ -37,7 +37,7 @@ export const Editor: React.FC<EditorProps> = ({ snippet, onChange }) => {
             <CodeEditor
               title="HTML"
               language="html"
-              initialValue={snippet.html}
+              value={snippet.html}
               onChange={(value) => handleChange(value, "html")}
             />
           </StyledTabPanel>
@@ -45,7 +45,7 @@ export const Editor: React.FC<EditorProps> = ({ snippet, onChange }) => {
             <CodeEditor
               title="CSS"
               language="css"
-              initialValue={snippet.css}
+              value={snippet.css}
               onChange={(value) => handleChange(value, "css")}
             />
           </StyledTabPanel>
@@ -53,7 +53,7 @@ export const Editor: React.FC<EditorProps> = ({ snippet, onChange }) => {
             <CodeEditor
               title="JavaScript"
               language="javascript"
-              initialValue={snippet.javascript}
+              value={snippet.javascript}
               onChange={(value) => handleChange(value, "javascript")}
             />
           </StyledTabPanel>

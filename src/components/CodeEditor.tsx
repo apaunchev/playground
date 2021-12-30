@@ -4,13 +4,13 @@ import styled from "styled-components";
 interface CodeEditorProps {
   title: string;
   language: string;
-  initialValue: string;
+  value: string;
   onChange: OnChange;
 }
 
 export const CodeEditor: React.FC<CodeEditorProps> = ({
   language,
-  initialValue,
+  value,
   onChange,
 }) => {
   return (
@@ -31,7 +31,7 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
           overviewRulerLanes: 0,
           renderLineHighlight: "none",
         }}
-        value={initialValue}
+        value={value}
         onChange={onChange}
       />
     </EditorWrapper>
