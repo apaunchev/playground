@@ -1,7 +1,7 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@reach/tabs";
 import "@reach/tabs/styles.css";
 import debounce from "lodash/debounce";
-import React, { useCallback } from "react";
+import React, { useEffect, useMemo } from "react";
 import styled from "styled-components";
 import { IEditorTypes, ISnippet } from "../types";
 import { CodeEditor } from "./CodeEditor";
@@ -14,14 +14,20 @@ interface EditorProps {
 }
 
 export const Editor: React.FC<EditorProps> = ({ snippet, onChange }) => {
-  const handleChange = useCallback(
-    debounce((value: string | undefined, type: IEditorTypes) => {
-      if (value !== undefined) {
-        onChange(value, type);
-      }
-    }, PREVIEW_DEBOUNCE_MS),
-    []
+  const handleChange = (value: string | undefined, type: IEditorTypes) => {
+    if (value !== undefined) {
+      onChange(value, type);
+    }
+  };
+
+  const handleChangeDebounced = useMemo(
+    () => debounce(handleChange, PREVIEW_DEBOUNCE_MS),
+    [onChange]
   );
+
+  useEffect(() => {
+    return () => handleChangeDebounced.cancel();
+  }, []);
 
   return (
     <Wrapper>
@@ -37,7 +43,7 @@ export const Editor: React.FC<EditorProps> = ({ snippet, onChange }) => {
               title="HTML"
               language="html"
               value={snippet.html}
-              onChange={(value) => handleChange(value, "html")}
+              onChange={(value) => handleChangeDebounced(value, "html")}
             />
           </StyledTabPanel>
           <StyledTabPanel key="css">
@@ -45,7 +51,7 @@ export const Editor: React.FC<EditorProps> = ({ snippet, onChange }) => {
               title="CSS"
               language="css"
               value={snippet.css}
-              onChange={(value) => handleChange(value, "css")}
+              onChange={(value) => handleChangeDebounced(value, "css")}
             />
           </StyledTabPanel>
           <StyledTabPanel key="javascript">
@@ -53,7 +59,7 @@ export const Editor: React.FC<EditorProps> = ({ snippet, onChange }) => {
               title="JavaScript"
               language="javascript"
               value={snippet.javascript}
-              onChange={(value) => handleChange(value, "javascript")}
+              onChange={(value) => handleChangeDebounced(value, "javascript")}
             />
           </StyledTabPanel>
         </StyledTabPanels>
