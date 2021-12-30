@@ -2,9 +2,9 @@ import { useMemo, useState } from "react";
 import { RefreshCw } from "react-feather";
 import styled from "styled-components";
 import { ISnippet } from "../types";
+import { constructIframeCode } from "../utils/constructIframeCode";
 import { IconButton } from "./IconButton";
 import { Pane } from "./Pane";
-import { constructIframeCode } from "../utils/constructIframeCode";
 
 interface PreviewProps {
   snippet: ISnippet;
