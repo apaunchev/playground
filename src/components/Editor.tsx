@@ -1,7 +1,7 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@reach/tabs";
 import "@reach/tabs/styles.css";
 import debounce from "lodash/debounce";
-import { useMemo } from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 import { IEditorTypes, ISnippet } from "../types";
 import { CodeEditor } from "./CodeEditor";
@@ -14,14 +14,13 @@ interface EditorProps {
 }
 
 export const Editor: React.FC<EditorProps> = ({ snippet, onChange }) => {
-  const handleChange = useMemo(
-    () =>
-      debounce((value: string | undefined, type: IEditorTypes) => {
-        if (value !== undefined) {
-          onChange(value, type);
-        }
-      }, PREVIEW_DEBOUNCE_MS),
-    [onChange]
+  const handleChange = useCallback(
+    debounce((value: string | undefined, type: IEditorTypes) => {
+      if (value !== undefined) {
+        onChange(value, type);
+      }
+    }, PREVIEW_DEBOUNCE_MS),
+    []
   );
 
   return (
