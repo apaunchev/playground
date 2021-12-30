@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export function useStickyState(defaultValue: unknown, key: string) {
+export const useStickyState = (defaultValue: unknown, key: string) => {
   const [value, setValue] = useState(() => {
     const stickyState = window.localStorage.getItem(key);
 
@@ -12,4 +12,4 @@ export function useStickyState(defaultValue: unknown, key: string) {
   }, [key, value]);
 
   return [value, setValue];
-}
+};

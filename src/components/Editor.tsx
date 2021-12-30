@@ -1,7 +1,7 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@reach/tabs";
 import "@reach/tabs/styles.css";
 import debounce from "lodash/debounce";
-import { useCallback, useMemo, useState } from "react";
+import { useMemo } from "react";
 import styled from "styled-components";
 import { IEditorTypes, ISnippet } from "../types";
 import { CodeEditor } from "./CodeEditor";
@@ -10,44 +10,18 @@ const PREVIEW_DEBOUNCE_MS = 1000;
 
 interface EditorProps {
   snippet: ISnippet;
-  onChange: (changedContent: string, changedType: IEditorTypes) => void;
+  onChange: (value: string, type: IEditorTypes) => void;
 }
 
 export const Editor: React.FC<EditorProps> = ({ snippet, onChange }) => {
-  const [htmlCode, setHtmlCode] = useState(snippet.html);
-  const [cssCode, setCssCode] = useState(snippet.css);
-  const [javascriptCode, setJavascriptCode] = useState(snippet.javascript);
-
-  const debouncedChange = useMemo(
+  const handleChange = useMemo(
     () =>
-      debounce(
-        (value: string, type: IEditorTypes) => onChange(value, type),
-        PREVIEW_DEBOUNCE_MS
-      ),
+      debounce((value: string | undefined, type: IEditorTypes) => {
+        if (value !== undefined) {
+          onChange(value, type);
+        }
+      }, PREVIEW_DEBOUNCE_MS),
     [onChange]
-  );
-
-  const handleChange = useCallback(
-    (value: string | undefined, type: IEditorTypes) => {
-      if (value === undefined) {
-        return;
-      }
-
-      if (type === "html") {
-        setHtmlCode(value);
-      }
-
-      if (type === "css") {
-        setCssCode(value);
-      }
-
-      if (type === "javascript") {
-        setJavascriptCode(value);
-      }
-
-      debouncedChange(value, type);
-    },
-    [debouncedChange]
   );
 
   return (
@@ -63,7 +37,7 @@ export const Editor: React.FC<EditorProps> = ({ snippet, onChange }) => {
             <CodeEditor
               title="HTML"
               language="html"
-              initialValue={htmlCode}
+              initialValue={snippet.html}
               onChange={(value) => handleChange(value, "html")}
             />
           </StyledTabPanel>
@@ -71,7 +45,7 @@ export const Editor: React.FC<EditorProps> = ({ snippet, onChange }) => {
             <CodeEditor
               title="CSS"
               language="css"
-              initialValue={cssCode}
+              initialValue={snippet.css}
               onChange={(value) => handleChange(value, "css")}
             />
           </StyledTabPanel>
@@ -79,7 +53,7 @@ export const Editor: React.FC<EditorProps> = ({ snippet, onChange }) => {
             <CodeEditor
               title="JavaScript"
               language="javascript"
-              initialValue={javascriptCode}
+              initialValue={snippet.javascript}
               onChange={(value) => handleChange(value, "javascript")}
             />
           </StyledTabPanel>

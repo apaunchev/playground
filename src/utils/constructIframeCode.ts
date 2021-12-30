@@ -1,6 +1,6 @@
 import { ISnippet } from "../types";
 
-export function constructIframeCode({ html, css, javascript }: ISnippet) {
+export const constructIframeCode = ({ html, css, javascript }: ISnippet) => {
   javascript = `
     import React from "https://cdn.skypack.dev/react";
     import ReactDOM from "https://cdn.skypack.dev/react-dom";
@@ -49,4 +49,4 @@ export function constructIframeCode({ html, css, javascript }: ISnippet) {
     </body>
     </html>
   `;
-}
+};

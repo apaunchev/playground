@@ -17,52 +17,44 @@ const initialSnippet = {
   javascript: `render(<h1>Playground</h1>)`,
 };
 
+const formatCode = (
+  code: string,
+  parser: string,
+  plugins: (string | prettier.Plugin<any>)[]
+) => {
+  return prettier
+    .format(code, {
+      parser,
+      plugins,
+    })
+    .replace(/\n$/, "");
+};
+
 export const App: React.FC = () => {
   const [snippet, setSnippet] = useStickyState(initialSnippet, "snippet");
 
-  const handleChange = (changedContent: string, changedType: string) => {
+  const handleSnippetChange = (value: string, type: string) => {
     setSnippet((snippet: ISnippet) => ({
       ...snippet,
-      [changedType]: changedContent,
+      [type]: value,
     }));
   };
 
-  function handleResetEditor() {
+  const handleSnippetReset = () => {
     setSnippet(initialSnippet);
-  }
+  };
 
-  function handleFormatSnippet() {
-    const newSnippet: { [key: string]: string } = {
-      html: snippet.html,
-      css: snippet.css,
-      javascript: snippet.javascript,
-    };
+  const handleSnippetFormat = () => {
+    const html = formatCode(snippet.html, "html", [htmlParser]);
+    const css = formatCode(snippet.css, "css", [cssParser]);
+    const javascript = formatCode(snippet.javascript, "babel", [babelParser]);
 
-    function format(
-      code: string,
-      parser: string,
-      plugins: (string | prettier.Plugin<any>)[]
-    ) {
-      return prettier
-        .format(code, {
-          parser,
-          plugins,
-        })
-        .replace(/\n$/, "");
-    }
-
-    Object.entries(newSnippet).forEach(([language, code]) => {
-      if (language === "html") {
-        newSnippet.html = format(code, "html", [htmlParser]);
-      } else if (language === "css") {
-        newSnippet.css = format(code, "css", [cssParser]);
-      } else if (language === "javascript") {
-        newSnippet.javascript = format(code, "babel", [babelParser]);
-      }
+    setSnippet({
+      html,
+      css,
+      javascript,
     });
-
-    setSnippet(newSnippet);
-  }
+  };
 
   return (
     <>
@@ -73,17 +65,17 @@ export const App: React.FC = () => {
             <IconButton
               icon={<SkipBack size={18} />}
               text="Reset editor"
-              onClick={handleResetEditor}
+              onClick={handleSnippetReset}
             />
             <IconButton
               icon={<Zap size={18} />}
               text="Format with Prettier"
-              onClick={handleFormatSnippet}
+              onClick={handleSnippetFormat}
             />
           </HeaderActions>
         </Header>
         <Content>
-          <Editor snippet={snippet} onChange={handleChange} />
+          <Editor snippet={snippet} onChange={handleSnippetChange} />
           <Preview snippet={snippet} />
         </Content>
       </Wrapper>
