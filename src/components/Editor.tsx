@@ -14,23 +14,9 @@ interface EditorProps {
 }
 
 export const Editor: React.FC<EditorProps> = ({ snippet, onChange }) => {
-  const [htmlCode, setHtmlCode] = useState("");
-  const [cssCode, setCssCode] = useState("");
-  const [javascriptCode, setJavascriptCode] = useState("");
-
-  useMemo(() => {
-    if (snippet.html) {
-      setHtmlCode(snippet.html);
-    }
-
-    if (snippet.css) {
-      setCssCode(snippet.css);
-    }
-
-    if (snippet.javascript) {
-      setJavascriptCode(snippet.javascript);
-    }
-  }, [snippet]);
+  const [htmlCode, setHtmlCode] = useState(snippet.html);
+  const [cssCode, setCssCode] = useState(snippet.css);
+  const [javascriptCode, setJavascriptCode] = useState(snippet.javascript);
 
   const debouncedChange = useMemo(
     () =>
