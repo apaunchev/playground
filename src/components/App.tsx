@@ -22,12 +22,14 @@ const formatCode = (
   parser: string,
   plugins: (string | prettier.Plugin<any>)[]
 ) => {
-  return prettier
-    .format(code, {
-      parser,
-      plugins,
-    })
-    .replace(/\n$/, "");
+  return prettier.format(code, {
+    parser,
+    plugins,
+
+    // Match Monaco editor's line endings to prevent a silly rerender of all
+    // components that take the snippet (https://github.com/microsoft/vscode/issues/127).
+    endOfLine: "crlf",
+  });
 };
 
 export const App: React.FC = () => {
