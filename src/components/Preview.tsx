@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { ISnippet } from "../types";
 import { IconButton } from "./IconButton";
 import { Pane } from "./Pane";
-import { constructSnippet } from "../utils/constructSnippet";
+import { constructIframeCode } from "../utils/constructIframeCode";
 
 interface PreviewProps {
   snippet: ISnippet;
@@ -16,7 +16,7 @@ export const Preview: React.FC<PreviewProps> = ({ snippet }) => {
 
   useMemo(() => {
     try {
-      const code = constructSnippet(snippet);
+      const code = constructIframeCode(snippet);
       setCode(code);
     } catch (e: unknown) {
       // if (e instanceof Error) {
