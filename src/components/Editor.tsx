@@ -69,8 +69,7 @@ export const Editor: React.FC<EditorProps> = ({ snippet, onChange }) => {
 };
 
 const Wrapper = styled.div`
-  max-width: 100%;
-  overflow: hidden; // Helps to keep the editor follow its container size
+  height: 100%;
 `;
 
 const StyledTabs = styled(Tabs)`
@@ -91,6 +90,7 @@ const StyledTabList = styled(TabList)`
 const StyledTab = styled(Tab)`
   padding: 10px 0 14px;
   border: 0;
+  font-weight: var(--font-weight-medium);
   opacity: 0.7;
   transition: opacity 1s var(--timing);
 
@@ -99,7 +99,6 @@ const StyledTab = styled(Tab)`
   }
 
   &[data-selected] {
-    font-weight: var(--font-weight-bold);
     opacity: 1;
   }
 `;

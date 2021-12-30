@@ -33,10 +33,7 @@ const Header = styled.header`
 `;
 
 const Title = styled.p`
-  font-size: 1rem;
-  font-weight: bold;
-  color: var(--color-text);
-  text-transform: uppercase;
+  font-weight: var(--font-weight-medium);
   cursor: default;
 `;
 

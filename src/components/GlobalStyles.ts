@@ -47,13 +47,31 @@ export const GlobalStyles = createGlobalStyle`
     --font-family-mono: monospace;
 
     --font-weight-bold: 700;
-    --font-weight-medium: 500;
-    --font-weight-light: 300;
+    --font-weight-medium: 600;
+    --font-weight-normal: 400;
 
     --color-background: #1e1e1e;
     --color-header: #333;
     --color-text: #ccc;
 
     --timing: cubic-bezier(0.19, 1, 0.22, 1);
+  }
+
+  // @devbookhq/splitter overrides
+  .__dbk__gutter.Dark {
+    background-color: var(--color-header);
+
+    > .__dbk__dragger {
+      background-color: var(--color-text);
+      opacity: 0.7;
+      transition: opacity 1s var(--timing);
+    }
+
+    &:hover {
+      > .__dbk__dragger {
+        background-color: var(--color-text);
+        opacity: 1;
+      }
+    }
   }
 `;

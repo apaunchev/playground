@@ -54,7 +54,7 @@ export const Preview: React.FC<PreviewProps> = ({ snippet }) => {
 };
 
 const Wrapper = styled.div`
-  border-left: 1px solid var(--color-header);
+  height: 100%;
 `;
 
 const FrameWrapper = styled.div`
@@ -64,13 +64,19 @@ const FrameWrapper = styled.div`
   overflow: hidden;
   background-color: white;
   border-radius: 4px;
+
+  // Put an overlay on top of the iframe so that it does not interfere with drag
+  // events. This selector depends on @devbookhq/splitter behaviour.
+  body[style*="cursor: col-resize"] &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
 `;
 
 const Frame = styled.iframe`
   display: block;
   position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
+  inset: 0;
+  background-color: white;
 `;

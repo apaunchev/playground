@@ -1,3 +1,4 @@
+import Splitter, { GutterTheme, SplitDirection } from "@devbookhq/splitter";
 import prettier from "prettier";
 import babelParser from "prettier/parser-babel";
 import htmlParser from "prettier/parser-html";
@@ -16,6 +17,8 @@ const initialSnippet = {
   css: `#root { font-family: sans-serif; }`,
   javascript: `render(<h1>Playground</h1>)`,
 };
+const initialSplitSizes = [50, 50]; // %
+const minSplitWidths = [400, 400]; // px
 
 const formatCode = (
   code: string,
@@ -34,6 +37,7 @@ const formatCode = (
 
 export const App: React.FC = () => {
   const [snippet, setSnippet] = useStickyState(initialSnippet, "snippet");
+  const [splitSizes, setSplitSizes] = useStickyState([50, 50], "splitSizes");
 
   const handleSnippetChange = (value: string, type: string) => {
     setSnippet((snippet: ISnippet) => ({
@@ -42,8 +46,9 @@ export const App: React.FC = () => {
     }));
   };
 
-  const handleSnippetReset = () => {
+  const handlePlaygroundReset = () => {
     setSnippet(initialSnippet);
+    setSplitSizes(initialSplitSizes);
   };
 
   const handleSnippetFormat = () => {
@@ -58,16 +63,20 @@ export const App: React.FC = () => {
     });
   };
 
+  const handleResizeFinished = (_: number, newSizes: number[]) => {
+    setSplitSizes(newSizes);
+  };
+
   return (
     <>
       <Wrapper>
         <Header>
-          <HeaderTitle>Code Playground</HeaderTitle>
+          <HeaderTitle>Playground</HeaderTitle>
           <HeaderActions>
             <IconButton
               icon={<SkipBack size={18} />}
-              text="Reset editor"
-              onClick={handleSnippetReset}
+              text="Reset playground"
+              onClick={handlePlaygroundReset}
             />
             <IconButton
               icon={<Zap size={18} />}
@@ -76,10 +85,16 @@ export const App: React.FC = () => {
             />
           </HeaderActions>
         </Header>
-        <Content>
+        <Splitter
+          direction={SplitDirection.Horizontal}
+          minWidths={minSplitWidths}
+          initialSizes={splitSizes}
+          gutterTheme={GutterTheme.Dark}
+          onResizeFinished={handleResizeFinished}
+        >
           <Editor snippet={snippet} onChange={handleSnippetChange} />
           <Preview snippet={snippet} />
-        </Content>
+        </Splitter>
       </Wrapper>
       <GlobalStyles />
     </>
@@ -118,14 +133,4 @@ const HeaderActions = styled.div`
   align-items: center;
   justify-items: center;
   gap: 8px;
-`;
-
-const Content = styled.div`
-  flex: 1 1 0%;
-  display: flex;
-  flex-direction: row;
-
-  > * {
-    flex: 1 1 0%;
-  }
 `;
