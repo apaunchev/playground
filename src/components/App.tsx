@@ -42,7 +42,11 @@ export const App: React.FC = () => {
     "splitSizes"
   );
 
-  const handleSnippetChange = (value: string, type: string) => {
+  const handleSnippetChange = (value: string | undefined, type: string) => {
+    if (value === undefined) {
+      return;
+    }
+
     setSnippet((snippet: ISnippet) => ({
       ...snippet,
       [type]: value,

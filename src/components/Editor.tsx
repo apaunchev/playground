@@ -6,22 +6,24 @@ import styled from "styled-components";
 import { IEditorTypes, ISnippet } from "../types";
 import { CodeEditor } from "./CodeEditor";
 
-const PREVIEW_DEBOUNCE_MS = 1000;
+const previewDebounceTiming = 1000; // ms
+const tabs: { type: IEditorTypes; title: string }[] = [
+  { type: "html", title: "HTML" },
+  { type: "css", title: "CSS" },
+  { type: "javascript", title: "JavaScript" },
+];
 
 interface EditorProps {
   snippet: ISnippet;
-  onChange: (value: string, type: IEditorTypes) => void;
+  onChange: (value: string | undefined, type: IEditorTypes) => void;
 }
 
 export const Editor: React.FC<EditorProps> = ({ snippet, onChange }) => {
-  const handleChange = (value: string | undefined, type: IEditorTypes) => {
-    if (value !== undefined) {
-      onChange(value, type);
-    }
-  };
+  const handleChange = (value: string | undefined, type: IEditorTypes) =>
+    onChange(value, type);
 
   const handleChangeDebounced = useMemo(
-    () => debounce(handleChange, PREVIEW_DEBOUNCE_MS),
+    () => debounce(handleChange, previewDebounceTiming),
     [onChange]
   );
 
@@ -33,35 +35,21 @@ export const Editor: React.FC<EditorProps> = ({ snippet, onChange }) => {
     <Wrapper>
       <StyledTabs>
         <StyledTabList>
-          <StyledTab key="html">HTML</StyledTab>
-          <StyledTab key="css">CSS</StyledTab>
-          <StyledTab key="javascript">JavaScript</StyledTab>
+          {tabs.map(({ type, title }) => (
+            <StyledTab key={type}>{title}</StyledTab>
+          ))}
         </StyledTabList>
         <StyledTabPanels>
-          <StyledTabPanel key="html">
-            <CodeEditor
-              title="HTML"
-              language="html"
-              value={snippet.html}
-              onChange={(value) => handleChangeDebounced(value, "html")}
-            />
-          </StyledTabPanel>
-          <StyledTabPanel key="css">
-            <CodeEditor
-              title="CSS"
-              language="css"
-              value={snippet.css}
-              onChange={(value) => handleChangeDebounced(value, "css")}
-            />
-          </StyledTabPanel>
-          <StyledTabPanel key="javascript">
-            <CodeEditor
-              title="JavaScript"
-              language="javascript"
-              value={snippet.javascript}
-              onChange={(value) => handleChangeDebounced(value, "javascript")}
-            />
-          </StyledTabPanel>
+          {tabs.map(({ type, title }) => (
+            <StyledTabPanel key={type}>
+              <CodeEditor
+                title={title}
+                language={type}
+                value={snippet[type]}
+                onChange={(value) => handleChangeDebounced(value, type)}
+              />
+            </StyledTabPanel>
+          ))}
         </StyledTabPanels>
       </StyledTabs>
     </Wrapper>
