@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { RefreshCw } from "react-feather";
 import styled from "styled-components";
 import { ISnippet } from "../types";
@@ -14,14 +14,8 @@ export const Preview: React.FC<PreviewProps> = ({ snippet }) => {
   const [code, setCode] = useState("");
   const [frameKey, setFrameKey] = useState(0);
 
-  useMemo(() => {
-    try {
-      const code = constructIframeCode(snippet);
-      setCode(code);
-    } catch (e: unknown) {
-      // if (e instanceof Error) {
-      // }
-    }
+  useEffect(() => {
+    setCode(constructIframeCode(snippet));
   }, [snippet]);
 
   return (
