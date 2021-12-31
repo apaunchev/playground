@@ -37,7 +37,10 @@ const formatCode = (
 
 export const App: React.FC = () => {
   const [snippet, setSnippet] = useStickyState(initialSnippet, "snippet");
-  const [splitSizes, setSplitSizes] = useStickyState([50, 50], "splitSizes");
+  const [splitSizes, setSplitSizes] = useStickyState(
+    initialSplitSizes,
+    "splitSizes"
+  );
 
   const handleSnippetChange = (value: string, type: string) => {
     setSnippet((snippet: ISnippet) => ({
